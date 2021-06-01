@@ -1,10 +1,12 @@
 import javafx.scene.paint.*;
 import javafx.scene.shape.*;
+import java.util.Random;
 public class SquareGrid
 {
     private Square[][] squares;
     private Snake s;
     private int size;
+    private int score = 0;
     public SquareGrid(int sideLength, Snake mySnake){
         squares = new Square[sideLength][sideLength];
         for(int row = 0; row < sideLength; row++){
@@ -28,6 +30,10 @@ public class SquareGrid
         return squares[y][x];
     }
     
+    public int getScore(){
+        return score;
+    }
+    
     public void setApple(int x, int y, boolean a){
         squares[x][y].setApple(a);
     }
@@ -49,13 +55,16 @@ public class SquareGrid
         int y = s.getHead().getY();
         Square headSquare = getSquare(x, y);
         if(headSquare.getApple()){
+            Random r = new Random();
             headSquare.setApple(false);
             s.eat(size);
-            int appleX = (int) Math.random()*size;
-            int appleY = (int) Math.random()*size;
+            score++;
+            
+            int appleX = r.nextInt(size);
+            int appleY = r.nextInt(size);
             while(s.toArr()[appleX][appleY] != null){
-                appleX = (int) Math.random()*size;
-                appleY = (int) Math.random()*size;
+                appleX = r.nextInt(size);
+                appleY = r.nextInt(size);
             }
             getSquare(appleX, appleY).setApple(true);
         }
