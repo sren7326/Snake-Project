@@ -3,7 +3,7 @@ public class Player
 {
     private int AILevel = -1;
     private SquareGrid grid;
-    private int score = 0;
+    
     
     public Player(SquareGrid myGrid){
         grid = myGrid;
@@ -19,6 +19,7 @@ public class Player
         else if(AILevel == 1)
             grid.getSnake().changeDirection(AI1());
         else if(AILevel == 2){
+            grid.getSnake().changeDirection(AI2());
         }
         grid.getSnake().move();
     }
@@ -34,6 +35,10 @@ public class Player
         else if(direction == 3)
             d = "N";
         return d;
+    }
+    
+    public SquareGrid getGrid(){
+        return grid;
     }
     
     public String AI0(){
@@ -77,7 +82,24 @@ public class Player
     
     public String AI2(){
         int max = grid.getSize();
-        
-        return null;
+        String d = grid.getSnake().getDirection();
+        int headX = grid.getSnake().getHead().getX();
+        int headY = grid.getSnake().getHead().getY();
+        if(headX < max - 1 && headY < max - 1){
+            return AI1();
+        }else{
+            if(d.equals("E") || d.equals("W")){
+                if(headY > (int) max/2)
+                    return "N";
+                else
+                    return "E";
+            }
+            else{
+                if(headX > (int) max/2)
+                    return "E";
+                else
+                    return "W";
+            }
+        }
     }
 }
